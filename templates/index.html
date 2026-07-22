@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoreIndustrial | Monitor EPIs IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Manrope:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#071018',
+                        petrol: '#102133',
+                        steel: '#2C3E4D',
+                        mist: '#EFF3F6',
+                        brass: '#C49A61',
+                        'core-blue': '#3080b0',
+                        'core-cobalt': '#1050a0',
+                    },
+                    fontFamily: {
+                        sora: ['Sora', 'sans-serif'],
+                        manrope: ['Manrope', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Sora', sans-serif; }
+        .font-mono { font-family: 'IBM Plex Mono', monospace; }
+        .gradient-btn {
+            background: linear-gradient(135deg, #1050a0, #3080b0);
+        }
+        .premium-card {
+            background-color: #071018; /* ink */
+            border: 1px solid rgba(196, 154, 97, 0.2); /* brass subtle */
+            box-shadow: 0 24px 48px -12px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body class="bg-mist text-petrol h-screen flex overflow-hidden">
+    
+    <!-- Sidebar -->
+    <aside class="w-[22rem] bg-white border-r border-[rgba(16,33,51,0.08)] flex flex-col flex-shrink-0 z-20 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+        <!-- Logo Area -->
+        <div class="p-8 border-b border-[rgba(16,33,51,0.06)] flex items-center justify-center bg-white">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="CoreIndustrial Logo" class="h-16 w-auto object-contain">
+        </div>
+
+        <!-- Content Area -->
+        <div class="p-6 flex-1 overflow-y-auto space-y-6">
+            
+            <!-- EPIs a Monitorizar (Checkboxes) -->
+            <div>
+                <h3 class="font-bold text-sm mb-4 text-steel font-mono uppercase tracking-wider flex items-center gap-2">
+                    <svg class="w-4 h-4 text-core-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    EPIs a Monitorizar
+                </h3>
+                
+                <div class="space-y-3">
+                    <!-- Casco -->
+                    <div id="ui_helmet" class="flex items-center justify-between p-3.5 rounded-xl border border-gray-100 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all duration-300">
+                        <span class="flex items-center gap-3 text-sm font-semibold text-petrol">
+                            <svg id="icon_helmet" class="w-5 h-5 text-steel transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            Casco
+                        </span>
+                        <div class="flex items-center gap-2.5">
+                            <span id="txt_helmet" class="text-[10px] font-mono font-bold tracking-widest uppercase text-gray-400 transition-colors">Esperando</span>
+                            <div id="dot_helmet" class="w-2.5 h-2.5 rounded-full bg-gray-300 transition-all duration-300"></div>
+                        </div>
+                    </div>
+
+                    <!-- Chaleco -->
+                    <div id="ui_vest" class="flex items-center justify-between p-3.5 rounded-xl border border-gray-100 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all duration-300">
+                        <span class="flex items-center gap-3 text-sm font-semibold text-petrol">
+                            <svg id="icon_vest" class="w-5 h-5 text-steel transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            Chaleco
+                        </span>
+                        <div class="flex items-center gap-2.5">
+                            <span id="txt_vest" class="text-[10px] font-mono font-bold tracking-widest uppercase text-gray-400 transition-colors">Esperando</span>
+                            <div id="dot_vest" class="w-2.5 h-2.5 rounded-full bg-gray-300 transition-all duration-300"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parámetros de Red (Desplegable) -->
+            <details class="group border border-gray-200 rounded-xl bg-white overflow-hidden transition-all shadow-sm">
+                <summary class="flex items-center justify-between p-4 cursor-pointer select-none hover:bg-gray-50 transition-colors">
+                    <span class="font-bold text-sm text-petrol flex items-center gap-2 font-sora">
+                        <svg class="w-4 h-4 text-brass" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        Parámetros de Red
+                    </span>
+                    <svg class="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                
+                <div class="p-4 pt-0 space-y-4 border-t border-gray-100 bg-gray-50/50 mt-2">
+                    <div class="pt-2">
+                        <label class="block text-xs font-semibold mb-1.5 text-petrol">Telegram Bot Token</label>
+                        <input type="password" id="tg_token" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:ring-core-blue focus:border-core-blue outline-none transition-colors bg-white" placeholder="123456:ABC-DEF...">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold mb-1.5 text-petrol">Telegram Chat ID</label>
+                        <input type="text" id="tg_chat" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:ring-core-blue focus:border-core-blue outline-none transition-colors bg-white" placeholder="123456789">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold mb-1.5 text-petrol">Segundos para Alerta</label>
+                        <input type="number" id="alert_time" value="5" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:ring-core-blue focus:border-core-blue outline-none transition-colors bg-white">
+                    </div>
+                    <button onclick="saveConfig()" class="w-full bg-white text-petrol font-semibold py-2 rounded-lg text-xs hover:bg-gray-100 transition-colors border border-gray-300 shadow-sm">
+                        Guardar Configuración
+                    </button>
+                    <p id="config-status" class="text-xs text-green-600 hidden text-center mt-2 font-medium">Guardado en memoria local.</p>
+                </div>
+            </details>
+        </div>
+
+        <!-- Control de Sistema -->
+        <div class="p-8 bg-petrol text-white border-t border-[rgba(255,255,255,0.08)] relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-core-blue/10 to-transparent pointer-events-none"></div>
+            <h3 class="font-bold text-xs mb-1.5 text-core-sky font-mono uppercase tracking-widest relative z-10">Motor Inferencia</h3>
+            <p class="text-xs text-gray-300 mb-6 leading-relaxed relative z-10">Inicia el modelo YOLOv8 en el puerto local de cámara.</p>
+            <button id="toggleBtn" onclick="toggleCamera()" class="w-full relative z-10 flex justify-center items-center gap-2 px-7 py-4 rounded-xl text-base font-bold text-white shadow-[0_8px_30px_-4px_rgba(16,80,160,0.5)] hover:-translate-y-1 transition-all duration-300 bg-[linear-gradient(135deg,#1050a0,#3080b0)] hover:shadow-[0_12px_40px_-4px_rgba(16,80,160,0.7)]">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                INICIAR MONITOR
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- Top header area for titles -->
+        <header class="pt-10 pb-6 px-10">
+            <h1 class="text-[2rem] font-bold text-petrol mb-1 font-sora">Monitor Inteligente de Planta</h1>
+            <p class="text-steel font-medium">Sistema de Detección de EPIs propulsado por Visión Artificial.</p>
+        </header>
+
+        <!-- Video Feed Area -->
+        <div class="flex-1 p-10 pt-0 flex flex-col">
+            <div class="premium-card rounded-2xl overflow-hidden relative flex-1 flex items-center justify-center border border-[rgba(16,33,51,0.08)] bg-ink">
+                
+                <div id="offlineState" class="text-center p-8 z-10">
+                    <div class="w-20 h-20 bg-steel rounded-full flex items-center justify-center mx-auto mb-5 opacity-40 shadow-inner">
+                        <svg class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-white text-2xl font-sora mb-2">Cámara Desconectada</h3>
+                    <p class="text-gray-400 text-sm font-mono uppercase tracking-widest">Esperando inicio de motor IA</p>
+                </div>
+
+                <img id="videoFeed" src="" class="absolute inset-0 w-full h-full object-contain bg-black hidden" alt="Video Feed" />
+                
+                <!-- Live Badge -->
+                <div id="liveBadge" class="absolute top-6 left-6 bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded flex items-center gap-2 shadow-lg hidden">
+                    <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span> REC
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let isRunning = false;
+        let statusInterval = null;
+
+        function updateIndicator(id, isActive) {
+            const ui = document.getElementById('ui_' + id);
+            const txt = document.getElementById('txt_' + id);
+            const dot = document.getElementById('dot_' + id);
+            const icon = document.getElementById('icon_' + id);
+            
+            if (isActive) {
+                ui.className = "flex items-center justify-between p-3.5 rounded-xl border border-green-500/30 bg-green-50/50 shadow-[0_2px_8px_rgba(34,197,94,0.05)] transition-all duration-300";
+                txt.textContent = "Detectado";
+                txt.className = "text-[10px] font-mono font-bold tracking-widest uppercase text-green-600 transition-colors";
+                dot.className = "w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)] transition-all duration-300";
+                if(icon) icon.className = "w-5 h-5 text-green-600 transition-colors";
+            } else {
+                ui.className = "flex items-center justify-between p-3.5 rounded-xl border border-gray-100 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all duration-300";
+                txt.textContent = "Esperando";
+                txt.className = "text-[10px] font-mono font-bold tracking-widest uppercase text-gray-400 transition-colors";
+                dot.className = "w-2.5 h-2.5 rounded-full bg-gray-300 transition-all duration-300";
+                if(icon) icon.className = "w-5 h-5 text-steel transition-colors";
+            }
+        }
+
+        async function pollStatus() {
+            if (!isRunning) return;
+            try {
+                const res = await fetch('/api/status');
+                const data = await res.json();
+                updateIndicator('helmet', data.helmet);
+                updateIndicator('vest', data.vest);
+            } catch (e) {
+                console.error("Error fetching status:", e);
+            }
+        }
+
+        async function saveConfig() {
+            const data = {
+                token: document.getElementById('tg_token').value,
+                chat_id: document.getElementById('tg_chat').value,
+                alert_time: document.getElementById('alert_time').value
+            };
+            await fetch('/api/config', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            const status = document.getElementById('config-status');
+            status.classList.remove('hidden');
+            setTimeout(() => status.classList.add('hidden'), 3000);
+        }
+
+        async function toggleCamera() {
+            isRunning = !isRunning;
+            const btn = document.getElementById('toggleBtn');
+            const video = document.getElementById('videoFeed');
+            const offline = document.getElementById('offlineState');
+            const badge = document.getElementById('liveBadge');
+
+            await fetch('/api/toggle', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({status: isRunning})
+            });
+
+            if (isRunning) {
+                btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg> DETENER MONITOR';
+                btn.classList.remove('bg-[linear-gradient(135deg,#1050a0,#3080b0)]');
+                btn.style.background = '#DC2626'; // Red 600
+                btn.style.boxShadow = '0 8px 30px -4px rgba(220, 38, 38, 0.5)';
+                
+                offline.classList.add('hidden');
+                video.classList.remove('hidden');
+                badge.classList.remove('hidden');
+                
+                // Forzar recarga del stream
+                video.src = '/video_feed?' + new Date().getTime();
+                
+                // Start polling detection status
+                if (statusInterval) clearInterval(statusInterval);
+                statusInterval = setInterval(pollStatus, 500);
+            } else {
+                btn.innerHTML = '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg> INICIAR MONITOR';
+                btn.classList.add('bg-[linear-gradient(135deg,#1050a0,#3080b0)]');
+                btn.style.background = ''; // reset to Tailwind classes
+                btn.style.boxShadow = '';
+                
+                offline.classList.remove('hidden');
+                video.classList.add('hidden');
+                badge.classList.add('hidden');
+                video.src = '';
+                
+                // Stop polling
+                if (statusInterval) clearInterval(statusInterval);
+                updateIndicator('helmet', false);
+                updateIndicator('vest', false);
+            }
+        }
+    </script>
+</body>
+</html>

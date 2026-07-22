@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+venv/
+env/
+ENV/
+
+# Videos y multimedia pesada
+*.mp4
+*.avi
+demo.mp4
+
+# Modelos de IA pesados (opcional)
+# yolov8n.pt se descarga solo de internet
+yolov8n.pt
+# best.pt pesa solo 6MB, puedes decidir si subirlo o no. 
+# Si quieres ignorarlo, quita la almohadilla de la línea de abajo:
+# best.pt
