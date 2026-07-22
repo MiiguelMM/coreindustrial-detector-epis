@@ -4,8 +4,9 @@ Bienvenido a esta guía práctica de **coreIndustrial**. Aquí aprenderás a con
 
 ## 🎯 ¿Qué vamos a conseguir?
 1. Leer el vídeo en tiempo real de tu cámara.
-2. Analizar las imágenes usando **YOLOv8** (un modelo líder en detección de objetos).
-3. Si un operario permanece en zona de riesgo sin casco más de 5 segundos, **enviaremos una alerta a tu móvil a través de Telegram**.
+2. Analizar las imágenes usando **YOLOv8** y un modelo de Inteligencia Artificial que **ya viene incluido** en esta descarga.
+3. Detectar **Cascos y Chalecos** de forma automática.
+4. Si un operario permanece en zona de riesgo sin EPIs más de 5 segundos, **enviaremos una alerta a tu móvil a través de Telegram**.
 
 ---
 
@@ -26,14 +27,9 @@ Abre tu terminal o símbolo del sistema (CMD) y ejecuta el siguiente comando:
 pip install opencv-python ultralytics requests flask
 ```
 
-### 2. Conseguir el Modelo de IA
-Para que la IA sepa qué es un "casco" y qué es una "persona", necesitamos un modelo entrenado. 
-Como regalo adicional, te dejamos un enlace a un modelo *open-source* público y gratuito en Roboflow Universe:
-👉 [Modelo de Detección de Cascos (Hard Hat) en Roboflow](https://universe.roboflow.com/search?q=hard%20hat)
-
-1. Entra al enlace y selecciona uno de los proyectos públicos (ej. "Hard Hat Workers").
-2. Ve a la pestaña **Model** y descarga los pesos para **YOLOv8** (suele ser un archivo llamado `best.pt`).
-3. Guarda ese archivo `best.pt` exactamente en la misma carpeta donde tienes el script de Python.
+### 2. El Modelo de IA
+Para que la IA sepa qué es un "casco" y qué es un "chaleco", necesita un modelo entrenado. 
+**¡Buena noticia!** Ya hemos incluido en esta descarga un modelo de alta calidad (`best.pt`) entrenado específicamente para detectar Cascos y Chalecos de seguridad. No tienes que descargar nada más, funcionará nada más arrancar.
 
 ### 3. ¡Ejecutar el Detector!
 Abre tu terminal en la carpeta del proyecto y ejecuta el siguiente comando para lanzar la interfaz web:
@@ -52,6 +48,6 @@ Desde allí podrás:
 ## 🏭 ¿Quieres llevar esto a toda tu planta?
 Este script es una prueba de concepto. Un entorno real industrial necesita cámaras IP, servidores robustos, conexión con sistemas PLC/SCADA y bases de datos para analizar métricas.
 
-En **coreIndustrial** somos expertos en digitalización y visión artificial para fábricas. Si quieres implantar sistemas de seguridad automatizados y fiables sin dolores de cabeza, **hablemos**.
+En **CoreIndustrial** somos expertos en digitalización y visión artificial para fábricas. Si quieres implantar sistemas de seguridad automatizados y fiables sin dolores de cabeza, **hablemos**.
 
-🌐 [coreindustrial.com](https://coreindustrial.com)
+🌐 [coreindustrial.es](https://coreindustrial.es)
